@@ -15,15 +15,11 @@ builder.Services.AddMassTransit(cfg =>
     cfg.AddConsumers(typeof(Program).Assembly);
     cfg.AddRequestClient<OrderSubmitCommand>();
 
-    cfg.UsingInMemory((ctx, bus) =>
+    cfg.UsingRabbitMq((ctx, bus) =>
     {
-        bus.ConfigureEndpoints(ctx);
-    });
+        bus.ConfigureEndpoints(ctx);    });
 });
-
-builder.Services.AddMassTransitHostedService();
-
-var app = builder.Build();
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
